@@ -180,20 +180,28 @@ app.get("/apps/:userid", (req, res) => {
 // 3.if app dont exists then add the app to the start of the array(unshift)
 // 4.if it exists then show that app is already exists.
 app.post('/addapp', (req, res) => {
-    console.log(req.body);
-    res.json({ status: "we recived app data!"});
+    // console.log(req.body);
+    // res.json({ status: "we recived app data!"});
     // const appsArray = [];
-    // Fruit.findOne({ _id: req.body.userId }, (err, data) => {
-    //     if(data) {
-    //         appsArray = data.appsData
-    //     } else {
-    //         res.json({ status: "something went worng!"})
-    //     }
-
-    //     if(err) {
-    //         res.json( { status: err})
-    //     }
-    // })
+    var appData = {
+        appname: req.body.appname,
+        email: req.body.email,
+        password: req.body.password
+    }
+    // This is through the findoneandupdate methode
+    Fruit.findOneAndUpdate(
+        { _id: req.body.userId },
+        { $push: { appsData: appData}},
+        (err, data) => {
+            if (err) {
+                console.log(err);
+                res.json({ status: err }); 
+            } else {
+                console.log(data);
+                res.json({ status: "ok" })
+            }
+        }
+    )
 
     // res.json({ status: "ok", appsData: appsArray });
 })
