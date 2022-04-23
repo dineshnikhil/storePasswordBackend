@@ -34,11 +34,29 @@ const add_app_data = (req, res) => {
         { $push: { appsData: appData}},
         (err, data) => {
             if (err) {
-                console.log(err);
-                res.json({ status: err }); 
+                res.json({ status: "error", msg: err }); 
             } else {
-                console.log(data);
-                res.json({ status: "ok" })
+                res.json({ status: "successfully deleted the app.", msg: obj })
+            }
+        }
+    )
+}
+
+// ======================== Here we are Deleting the App based on id ======================
+// 1.we get app id and user id from the client as url params.
+// 2. with the use of updateOne method we delete the app using user id and app id.
+const delete_app = (req, res) => {
+    Model.updateOne(
+        { _id: req.params.userid}, 
+        { "$pull": { "appsData": { _id: req.params.appid }}},
+        { safe: true, multi: true },
+        function(err, obj) {
+            if(err) {
+                console.log(err);
+                res.json({ status: err })
+            } else {
+                console.log(obj);
+                res.json({ status: obj })
             }
         }
     )
@@ -46,5 +64,6 @@ const add_app_data = (req, res) => {
 
 module.exports = {
     get_all_apps_by_user_id,
-    add_app_data
+    add_app_data,
+    delete_app
 }

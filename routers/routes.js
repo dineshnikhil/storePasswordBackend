@@ -8,6 +8,7 @@ router.post('/createAccount', userController.create_user);
 router.post('/login', userController.login_the_user);
 
 router.get("/apps/:userid", appsController.get_all_apps_by_user_id);
-router.post('/addapp', appsController.add_app_data)
+router.post('/addapp', appsController.add_app_data);
+router.get('/app-delete/:userid/:appid', appsController.delete_app);
 
 module.exports = router;
