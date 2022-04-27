@@ -34,9 +34,11 @@ const add_app_data = (req, res) => {
         { $push: { appsData: appData}},
         (err, data) => {
             if (err) {
-                res.json({ status: "error", msg: err }); 
+                console.log(err);
+                res.json({ status: err })
             } else {
-                res.json({ status: "successfully deleted the app.", msg: obj })
+                console.log(data);
+                res.json({ status: "ok", app: data })
             }
         }
     )
@@ -52,18 +54,28 @@ const delete_app = (req, res) => {
         { safe: true, multi: true },
         function(err, obj) {
             if(err) {
-                console.log(err);
-                res.json({ status: err })
+                res.json({ status: "error", msg: err }); 
             } else {
-                console.log(obj);
-                res.json({ status: obj })
+                res.json({ status: "successfully deleted the app.", msg: obj })
             }
         }
     )
 }
 
+// ==================== Here we are fetching the single app data ================
+function get_app(req, res) {
+    Model.find({ _id: req.params.userid, appsData: { _id: req.params.appid }}, (err, data) => {
+        if(data) {
+            res.json(data);
+        } else {
+            res.json(err)
+        }
+    })
+}
+
 module.exports = {
     get_all_apps_by_user_id,
     add_app_data,
-    delete_app
+    delete_app,
+    get_app
 }
