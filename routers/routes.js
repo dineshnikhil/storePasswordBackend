@@ -10,6 +10,6 @@ router.post('/login', userController.login_the_user);
 router.get("/apps/:userid", appsController.get_all_apps_by_user_id);
 router.post('/addapp', appsController.add_app_data);
 router.get('/app-delete/:userid/:appid', appsController.delete_app);
-router.get('/app-edit/:userid/:appid', appsController.get_app);
+router.post('/app-edit/:userid/:appid', appsController.edit_app);
 
 module.exports = router;

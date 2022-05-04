@@ -63,19 +63,26 @@ const delete_app = (req, res) => {
 }
 
 // ==================== Here we are fetching the single app data ================
-function get_app(req, res) {
-    Model.find({ _id: req.params.userid, appsData: { _id: req.params.appid }}, (err, data) => {
+function edit_app(req, res) {
+    Model.updateOne(
+        { "_id": req.params.userid, "appsData._id": req.params.appid },
+        { '$set': { 
+            'appsData.$.appname': req.body.appname,
+            'appsData.$.email': req.body.email,
+            'appsData.$.password': req.body.password
+        } },
+        (err, data) => {
         if(data) {
-            res.json(data);
+            res.json(data)
         } else {
             res.json(err)
         }
-    })
+    });
 }
 
 module.exports = {
     get_all_apps_by_user_id,
     add_app_data,
     delete_app,
-    get_app
+    edit_app
 }
