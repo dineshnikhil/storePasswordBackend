@@ -6,7 +6,6 @@ const Model = require('../models/usermodal');
 const get_all_apps_by_user_id = (req, res) => {
     Model.findOne({ _id: req.params.userid }, (err, data) => {
         if(data) {
-            console.log(data.appsData);
             res.json({ status: "ok", apps: data.appsData });
         } else {
             res.json({ status: "something went worng!"})
